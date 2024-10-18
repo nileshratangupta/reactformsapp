@@ -13,14 +13,14 @@ function App() {
     "Vaccination 6"
   ];
 
-  const frequencyOptions = ["Once", "Hours", "Months"]; // Frequency options
+  const frequencyOptions = ["Once", "Hours", "Months"]; 
 
   // State management
   const [selectedOption, setSelectedOption] = useState('');
-  const [tableData, setTableData] = useState([]); // Store multiple rows
+  const [tableData, setTableData] = useState([]); 
   const [inputData, setInputData] = useState({ field1: '', field2: '', field3: '', field4: '', frequency: '' });
-  const [showInputFields, setShowInputFields] = useState(false); // To control input fields visibility
-  const [editIndex, setEditIndex] = useState(null); // Track the index of the row being edited
+  const [showInputFields, setShowInputFields] = useState(false); 
+  const [editIndex, setEditIndex] = useState(null); 
   const [isModalOpen, setModalOpen] = useState(false);
   const [optionError, setOptionError] = useState(false);
   const [fieldError, setFieldError] = useState(false);
@@ -38,7 +38,7 @@ function App() {
   const handleDropdownChange = (event) => {
     const selected = event.target.value;
     setSelectedOption(selected);
-    setInputData({ field1: '', field2: '', field3: '', field4: '', frequency: '' }); // Clear input fields
+    setInputData({ field1: '', field2: '', field3: '', field4: '', frequency: '' }); 
 
     // Check if selected option already exists in table data
     const existingRow = tableData.find(data => data.selectedOption === selected);
@@ -47,8 +47,8 @@ function App() {
       setSelectedOption('');
     } else {
       setOptionError(false)
-      setShowInputFields(true); // Show input fields if it's a new option
-      setEditIndex(null); // Reset edit index
+      setShowInputFields(true); 
+      setEditIndex(null); 
     }
   };
 
@@ -65,16 +65,16 @@ function App() {
   const handleSave = () => {
     if (inputData.field1 && inputData.field2) {
       const newRow = { selectedOption, ...inputData };
-      setTableData((prevData) => [...prevData, newRow]); // Add new row
+      setTableData((prevData) => [...prevData, newRow]); 
 
       // Save to localStorage
       localStorage.setItem('tableData', JSON.stringify([...tableData, newRow]));
 
       // Clear input fields after save
       setInputData({ field1: '', field2: '', field3: '', field4: '', frequency: '' });
-      setShowInputFields(false); // Hide input fields after saving
+      setShowInputFields(false); 
       setFieldError(false)
-      setSelectedOption(''); // Reset the dropdown selection
+      setSelectedOption(''); 
     } else {
       setFieldError(true)
       // alert("Please fill in all fields marked with *");
@@ -84,8 +84,8 @@ function App() {
   // Handle row deletion
   const handleDelete = (index) => {
     const updatedData = tableData.filter((_, i) => i !== index);
-    setTableData(updatedData); // Remove the row
-    localStorage.setItem('tableData', JSON.stringify(updatedData)); // Update localStorage
+    setTableData(updatedData); 
+    localStorage.setItem('tableData', JSON.stringify(updatedData)); 
     setModalOpen(false);
   };
 
@@ -101,10 +101,10 @@ function App() {
       field1: tableData[index].field1,
       field2: tableData[index].field2,
       field3: tableData[index].field3,
-      frequency: tableData[index].frequency, // Include frequency
+      frequency: tableData[index].frequency, 
       field4: tableData[index].field4,
     });
-    setSelectedOption(tableData[index].selectedOption); // Set the selected option
+    setSelectedOption(tableData[index].selectedOption); 
     setShowInputFields(true);
   };
 
@@ -115,14 +115,14 @@ function App() {
       const updatedData = tableData.map((data, index) => (index === editIndex ? updatedRow : data));
 
       setTableData(updatedData); // Update the table data
-      localStorage.setItem('tableData', JSON.stringify(updatedData)); // Update localStorage
+      localStorage.setItem('tableData', JSON.stringify(updatedData)); 
 
       // Clear input fields after updating
       setInputData({ field1: '', field2: '', field3: '', field4: '', frequency: '' });
-      setShowInputFields(false); // Hide input fields after updating
-      setSelectedOption(''); // Reset the dropdown selection
+      setShowInputFields(false); 
+      setSelectedOption(''); 
       setFieldError(false)
-      setEditIndex(null); // Reset edit index
+      setEditIndex(null); 
     } else {
       setFieldError(true)
     }
@@ -132,7 +132,7 @@ function App() {
     <div className="App">
       <h3>Configure Vaccination</h3>
 
-      {/* Dropdown */}
+      
       <div style={{ margin: "10px 0" }}>Select Vaccination to add</div>
       <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
         <select
@@ -155,7 +155,7 @@ function App() {
         )}
       </div>
 
-      {/* Display saved rows and input fields directly in the table */}
+      
       {tableData.length > 0 || showInputFields ? (
         <>
           <VaccinationTable
@@ -174,7 +174,7 @@ function App() {
             setShowInputFields={setShowInputFields}
             handleUpdate={handleUpdate}
             handleSave={handleSave}
-            frequencyOptions={frequencyOptions} // Pass frequency options
+            frequencyOptions={frequencyOptions} 
             setEditIndex={setEditIndex}
             setFieldError={setFieldError}
             setSelectedOption={setSelectedOption}
